@@ -1,0 +1,26 @@
+{
+  "summary": "Welcome/splash screen feature validated end-to-end on Expo web preview at 390x844. On '/', the welcome-screen and welcome-image render, then auto-redirect (no user interaction) to /home after ~1.8s where module-M1.A becomes visible. Home shows all 4 cards (M1.A, M1.B, Tita I, Tita II) plus menu-button. Menu opens with lang-english + menu-videos; menu-videos navigates to /videos (video-card-v1, video-card-v2 both present). Back from /videos and back from /m1a both return to /home; the welcome-screen never re-appears (router.replace correctly wiped it from history). Regression: module-M1.A -> generate-button -> card-affirmative shows 'I can see.' with the eyes emoji. Zero pageerrors. Only harmless web-only warnings observed (shadow*, props.pointerEvents, and Animated useNativeDriver fallback on web — the last one is expected because RCTAnimation is native-only; JS-driven fade/scale still runs correctly).",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": [],
+    "react_native_issues": []
+  },
+  "test_report_links": ["/app/test_reports/iteration_6.json"],
+  "action_items": [
+    "OPTIONAL: The useNativeDriver warning on the welcome splash is harmless on web (falls back to JS animation), but if you want a totally clean console on web, gate useNativeDriver behind Platform.OS !== 'web' in app/index.tsx (lines 24, 30). Native builds will still get the native driver."
+  ],
+  "critical_code_review_comments": [
+    "app/index.tsx clean, minimal, and correct: router.replace('/home') ensures back navigation cannot land on the splash (verified in test). Timer cleanup via clearTimeout is present.",
+    "Ionicons 'flower' icon in home.tsx module-M1.B is dead code (emoji '🐝' overrides it) — same note as iteration_5; cosmetic only.",
+    "Static require of ../assets/images/tita-welcome.png confirmed at path assets/images/tita-welcome.png; asset present."
+  ],
+  "updated_files": [],
+  "success_rate": {"backend": "N/A (frontend only)", "frontend": "100%"},
+  "seed_data_creation": "None",
+  "retest_needed": false,
+  "should_main_agent_self_test": false,
+  "context_for_next_testing_agent": "Welcome splash lives at app/index.tsx (testID welcome-screen, image welcome-image), auto-redirects via router.replace('/home') after 1800ms. Main menu moved to app/home.tsx. Back navigation from any child route lands on /home (verified). Only expected web-preview warnings are the useNativeDriver fallback (harmless) and pre-existing shadow*/pointerEvents deprecations.",
+  "rca_of_issue": "N/A - feature works as specified."
+}

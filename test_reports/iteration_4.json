@@ -1,0 +1,26 @@
+{
+  "summary": "Frontend-only smoke + regression testing on Expo web (viewport 390x844). All requested changes verified: Home menu now contains ONLY 'Inglés' (lang-english, with checkmark) and 'Videos' (menu-videos); the removed entries lang-spanish, lang-mixed-en-es, lang-mixed-es-en are absent (count = 0). Tapping menu-videos navigates to /videos. /videos shows two separate cards video-card-v1 and video-card-v2 with titles 'Lección 1' and 'Lección 2'; both cards render an HTML5 <video> element with native controls (2 <video> tags on page). Back button returns to Home. Regression: all 4 module cards (M1.A, M1.B, Tita I, Tita II) render on Home, and M1.A generates the English sentence 'I can see.' via generate-button (card-affirmative text = 'AFIRMATIVA\\n\\uf21d\\nI can see.\\n👀'). Language is locked to English (no Spanish sense/verb strings appear in M1.A). One minor observation: the testID passed to expo-video's <VideoView> (video-player-v1/v2) is not propagated to the rendered DOM element on web, so the testIDs are not queryable — the videos themselves DO render correctly.",
+  "backend_issues": {"critical": [], "minor": []},
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": [],
+    "react_native_issues": [
+      {"component": "expo-video VideoView", "issue": "testID prop is not forwarded to the rendered DOM node on web preview, so [data-testid=\"video-player-v1\"] / [data-testid=\"video-player-v2\"] cannot be located by Playwright. The two <video> elements do render correctly with native controls, but strict testID-based selection is not possible. Reference: /app/frontend/app/videos.tsx:60. Suggestion: wrap the <VideoView> in a <View testID=\"video-player-v1\"> (and v2) so a queryable wrapper exists for tests."}
+    ]
+  },
+  "test_report_links": [],
+  "action_items": [
+    "Optional: wrap each <VideoView> in a <View testID=\"video-player-v1\"> / v2 wrapper in /app/frontend/app/videos.tsx so that the video-player testIDs required by the review request are queryable in tests (functional behavior is already correct)."
+  ],
+  "critical_code_review_comments": [
+    "Console warnings on web: 'shadow*' style props deprecated (use boxShadow) and props.pointerEvents deprecated (use style.pointerEvents). Non-blocking but noisy in logs."
+  ],
+  "updated_files": [],
+  "success_rate": {"backend": "N/A (not requested)", "frontend": "100% (all 6 requested checks pass, minor testID propagation caveat on VideoView noted)"},
+  "seed_data_creation": "None",
+  "retest_needed": false,
+  "should_main_agent_self_test": true,
+  "context_for_next_testing_agent": "Preview URL: https://find-estasaqui.preview.emergentagent.com. Viewport 390x844. Home testIDs: menu-button, module-M1.A/M1.B/Tita I/Tita II. Menu testIDs: lang-english (static View with check), menu-videos (Pressable → router.push('/videos')). Videos screen testIDs: back-button, video-card-v1, video-card-v2 (video-player-v1/v2 testIDs currently not propagated by expo-video on web). M1.A generation: generate-button → card-affirmative renders 'I can see.'",
+  "rca_of_issue": "N/A — no bugs found. Only observation is the expo-video VideoView testID prop not reaching the DOM on web; mitigation is to wrap it in a View that carries the testID."
+}
