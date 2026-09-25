@@ -2,13 +2,21 @@ import React, { useState } from "react";
 import { View, Text, StyleSheet, Pressable, ScrollView, Modal } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { LinearGradient } from "expo-linear-gradient";
+import { Image } from "expo-image";
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 
 import { colors, fonts, spacing, radius } from "@/src/theme";
 import { useLanguage } from "@/src/context/LanguageContext";
-import { STRINGS, uiLangOf, MODULE_TITLES } from "@/src/i18n";
+import { STRINGS, uiLangOf } from "@/src/i18n";
+
+const CARD_IMAGES: Record<string, any> = {
+  "M1.A": require("../assets/images/mod-does.png"),
+  "M1.B": require("../assets/images/mod-bee.png"),
+  "Tita I": require("../assets/images/tita-1.png"),
+  "Tita II": require("../assets/images/tita-2.png"),
+};
 
 type Module = {
   code: string;
@@ -53,9 +61,12 @@ export default function Modules() {
           <View style={{ flex: 1 }} />
         </View>
 
-        <Text style={styles.mascot}>🦉</Text>
-        <Text style={styles.title}>{t.homeTitle}</Text>
-        <Text style={styles.subtitle}>{t.homeSubtitle}</Text>
+        <Image
+          testID="home-hero"
+          source={require("../assets/images/club-tita.png")}
+          style={styles.hero}
+          contentFit="contain"
+        />
 
         <View style={styles.grid}>
           {MODULES.map((m) => (
@@ -70,28 +81,12 @@ export default function Modules() {
                   <Text style={styles.badgeText}>{m.badge}</Text>
                 </View>
               ) : null}
-              <View style={[styles.iconCircle, { backgroundColor: m.color }]}>
-                {m.emoji ? (
-                  <Text style={styles.moduleEmoji}>{m.emoji}</Text>
-                ) : (
-                  <Ionicons name={m.icon} size={24} color="#fff" />
-                )}
-              </View>
-              <Text style={[styles.moduleCode, { color: m.color }]}>{m.code}</Text>
-              <Text style={styles.moduleTitle} numberOfLines={2}>
-                {MODULE_TITLES[lang][m.code]}
-              </Text>
-              <View style={styles.footerRow}>
-                <View style={styles.hPill}>
-                  <Text style={[styles.hPillText, { color: m.color }]} numberOfLines={1}>
-                    {`${m.tenses} ${t.tenses}`}
-                  </Text>
-                </View>
-                <View style={{ flex: 1 }} />
-                <View style={[styles.goCircle, { backgroundColor: m.color }]}>
-                  <Ionicons name="chevron-forward" size={15} color="#fff" />
-                </View>
-              </View>
+              <Image
+                testID={`module-image-${m.code}`}
+                source={CARD_IMAGES[m.code]}
+                style={styles.cardImage}
+                contentFit="contain"
+              />
             </Pressable>
           ))}
         </View>
@@ -140,8 +135,10 @@ const styles = StyleSheet.create({
   title: { fontFamily: fonts.extrabold, fontSize: 34, color: colors.ink, textAlign: "center" },
   mascot: { fontSize: 52, textAlign: "center", marginTop: spacing.xs },
   subtitle: { fontFamily: fonts.bold, fontSize: 15, color: colors.inkSoft, textAlign: "center", marginTop: 2, marginBottom: spacing.lg },
+  hero: { width: "100%", height: 180, alignSelf: "center", marginTop: spacing.xs, marginBottom: spacing.lg },
   grid: { flexDirection: "row", flexWrap: "wrap", justifyContent: "space-between" },
-  cardModule: { width: "48%", borderRadius: radius.xl, padding: spacing.md, marginBottom: spacing.md, minHeight: 190 },
+  cardModule: { width: "48%", borderRadius: radius.xl, padding: spacing.sm, marginBottom: spacing.md, minHeight: 170 },
+  cardImage: { width: "100%", height: 150 },
   iconCircle: { width: 60, height: 60, borderRadius: 30, alignItems: "center", justifyContent: "center", marginBottom: spacing.sm },
   moduleEmoji: { fontSize: 32 },
   moduleCode: { fontFamily: fonts.extrabold, fontSize: 24 },

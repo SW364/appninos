@@ -6,6 +6,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { useVideoPlayer, VideoView } from "expo-video";
+import { Image } from "expo-image";
 
 import { colors, fonts, spacing, radius } from "@/src/theme";
 
@@ -90,9 +91,12 @@ export default function Videos() {
           <View style={{ flex: 1 }} />
         </View>
 
-        <Text style={styles.mascot}>📺</Text>
-        <Text style={styles.title}>Videos</Text>
-        <Text style={styles.subtitle}>Mira y aprende inglés</Text>
+        <Image
+          testID="videos-hero"
+          source={require("../assets/images/club-tita.png")}
+          style={styles.hero}
+          contentFit="contain"
+        />
 
         <View style={{ marginTop: spacing.lg, gap: spacing.md }}>
           {LESSONS.map((l) => (
@@ -125,6 +129,7 @@ const styles = StyleSheet.create({
     ...shadow,
   },
   mascot: { fontSize: 48, textAlign: "center" },
+  hero: { width: "100%", height: 180, alignSelf: "center", marginTop: spacing.xs, marginBottom: spacing.sm },
   title: { fontFamily: fonts.extrabold, fontSize: 32, color: colors.ink, textAlign: "center" },
   subtitle: {
     fontFamily: fonts.bold,
