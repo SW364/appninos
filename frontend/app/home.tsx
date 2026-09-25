@@ -32,8 +32,8 @@ type Module = {
 const MODULES: Module[] = [
   { code: "M1.A", icon: "eye", emoji: "👀", color: "#4A7DF0", bg: "#E8F1FC", route: "/m1a", tenses: 5 },
   { code: "M1.B", icon: "flower", emoji: "🐝", color: "#1FB6A6", bg: "#E4F6F3", route: "/m1b", tenses: 5 },
-  { code: "Tita I", icon: "cube", emoji: "🎁", color: "#EC4899", bg: "#FCE7F1", route: "/tita1", badge: "Nuevo", tenses: 2 },
-  { code: "Tita II", icon: "time", emoji: "⏰", color: "#3B82F6", bg: "#E7F0FD", route: "/tita2", badge: "Nuevo", tenses: 2 },
+  { code: "Tita I", icon: "cube", emoji: "🎁", color: "#EC4899", bg: "#FCE7F1", route: "/tita1", tenses: 2 },
+  { code: "Tita II", icon: "time", emoji: "⏰", color: "#3B82F6", bg: "#E7F0FD", route: "/tita2", tenses: 2 },
 ];
 
 export default function Modules() {
