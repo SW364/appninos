@@ -87,6 +87,9 @@ export default function Modules() {
                 style={styles.cardImage}
                 contentFit="contain"
               />
+              <View style={[styles.goCircle, { backgroundColor: m.color }]}>
+                <Ionicons name="play" size={16} color="#fff" />
+              </View>
             </Pressable>
           ))}
         </View>
@@ -137,23 +140,36 @@ const styles = StyleSheet.create({
   subtitle: { fontFamily: fonts.bold, fontSize: 15, color: colors.inkSoft, textAlign: "center", marginTop: 2, marginBottom: spacing.lg },
   hero: { width: "100%", height: 180, alignSelf: "center", marginTop: spacing.xs, marginBottom: spacing.lg },
   grid: { flexDirection: "row", flexWrap: "wrap", justifyContent: "space-between" },
-  cardModule: { width: "48%", borderRadius: radius.xl, padding: spacing.sm, marginBottom: spacing.md, minHeight: 170 },
-  cardImage: { width: "100%", height: 150 },
-  iconCircle: { width: 60, height: 60, borderRadius: 30, alignItems: "center", justifyContent: "center", marginBottom: spacing.sm },
-  moduleEmoji: { fontSize: 32 },
-  moduleCode: { fontFamily: fonts.extrabold, fontSize: 24 },
-  moduleTitle: { fontFamily: fonts.bold, fontSize: 14, color: colors.inkSoft, marginTop: 2 },
-  footerRow: { flexDirection: "row", alignItems: "center", gap: 8, marginTop: "auto", paddingTop: spacing.sm },
-  goCircle: { width: 26, height: 26, borderRadius: 13, alignItems: "center", justifyContent: "center", flexShrink: 0 },
-  hPill: {
-    backgroundColor: "rgba(255,255,255,0.75)",
-    paddingHorizontal: 8,
-    paddingVertical: 3,
-    borderRadius: radius.pill,
-    minWidth: 30,
-    alignItems: "center",
+  cardModule: {
+    width: "48%",
+    borderRadius: radius.xl,
+    padding: spacing.sm,
+    marginBottom: spacing.md,
+    minHeight: 170,
+    borderWidth: 1,
+    borderColor: "rgba(255,255,255,0.9)",
+    shadowColor: "#5B6079",
+    shadowOpacity: 0.18,
+    shadowRadius: 14,
+    shadowOffset: { width: 0, height: 6 },
+    elevation: 5,
   },
-  hPillText: { fontFamily: fonts.extrabold, fontSize: 12 },
+  cardImage: { width: "100%", height: 150 },
+  goCircle: {
+    position: "absolute",
+    bottom: 10,
+    right: 10,
+    width: 34,
+    height: 34,
+    borderRadius: 17,
+    alignItems: "center",
+    justifyContent: "center",
+    shadowColor: "#2A2E45",
+    shadowOpacity: 0.25,
+    shadowRadius: 6,
+    shadowOffset: { width: 0, height: 3 },
+    elevation: 4,
+  },
   badge: { position: "absolute", top: 10, right: 10, backgroundColor: "#EC4899", paddingHorizontal: 10, paddingVertical: 3, borderRadius: radius.pill },
   badgeText: { fontFamily: fonts.bold, fontSize: 11, color: "#fff" },
   menuBackdrop: { flex: 1, backgroundColor: "rgba(20,22,40,0.25)" },
