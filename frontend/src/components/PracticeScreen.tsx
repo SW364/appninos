@@ -15,16 +15,16 @@ import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import * as Haptics from "expo-haptics";
-import { useAudioPlayer, setAudioModeAsync } from "expo-audio";
+import * as Speech from "expo-speech";
 
 import { colors, fonts, spacing, radius } from "@/src/theme";
 import DragCarousel from "@/src/components/DragCarousel";
 import { OptionItem, Trio } from "@/src/data/conjugation";
 import { Sentence } from "@/src/data/verbs";
 import { MixedReference } from "@/src/data/bilingual";
+import { useLanguage } from "@/src/context/LanguageContext";
 import { STRINGS } from "@/src/i18n";
 
-const BACKEND = process.env.EXPO_PUBLIC_BACKEND_URL;
 const cap = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
 
 type UIT = (typeof STRINGS)["en"];
@@ -130,12 +130,7 @@ export default function PracticeScreen(cfg: PracticeConfig) {
   const [search, setSearch] = useState("");
   const [cards, setCards] = useState<Trio | null>(null);
   const [refCards, setRefCards] = useState<Trio | null>(null);
-
-  const player = useAudioPlayer(null);
-
-  useEffect(() => {
-    setAudioModeAsync({ playsInSilentMode: true }).catch(() => {});
-  }, []);
+  const { lang } = useLanguage();
 
   useEffect(() => {
     const s = cfg.subjects[0].label;
@@ -164,12 +159,13 @@ export default function PracticeScreen(cfg: PracticeConfig) {
 
   const speak = useCallback(
     (text: string) => {
-      const uri = `${BACKEND}/api/tts?text=${encodeURIComponent(text)}`;
-      player.replace({ uri });
-      player.seekTo(0);
-      player.play();
+      Speech.stop();
+      Speech.speak(text, {
+        language: lang === "es" ? "es-ES" : "en-US",
+        rate: 0.9,
+      });
     },
-    [player],
+    [lang],
   );
 
   const base = cfg.divided

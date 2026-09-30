@@ -13,7 +13,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import * as Haptics from "expo-haptics";
-import { useAudioPlayer, setAudioModeAsync } from "expo-audio";
+import * as Speech from "expo-speech";
 
 import { colors, fonts, spacing, radius } from "@/src/theme";
 import DragCarousel from "@/src/components/DragCarousel";
@@ -24,8 +24,6 @@ import { QUANTITIES_ES, COLORS_ES, OBJECTS_ES, buildTitaEs } from "@/src/data/ti
 import { makeTitaReference } from "@/src/data/bilingual";
 import { useLanguage } from "@/src/context/LanguageContext";
 import { STRINGS, uiLangOf, MODULE_TITLES } from "@/src/i18n";
-
-const BACKEND = process.env.EXPO_PUBLIC_BACKEND_URL;
 
 type QtyT = { key: number; label: string };
 type ColorT = { name: string; hex: string };
@@ -81,12 +79,6 @@ export default function TitaScreen({ tense }: { tense: "present" | "past" }) {
 
   const titaRef = mixed ? makeTitaReference(lang) : null;
 
-  const player = useAudioPlayer(null);
-
-  useEffect(() => {
-    setAudioModeAsync({ playsInSilentMode: true }).catch(() => {});
-  }, []);
-
   // Regenerate initial card whenever the learning language / mixed mode changes.
   useEffect(() => {
     const args = [tense, QTY[qty].key, COLS[color].name, objKey] as const;
@@ -111,12 +103,13 @@ export default function TitaScreen({ tense }: { tense: "present" | "past" }) {
 
   const speak = useCallback(
     (text: string) => {
-      const uri = `${BACKEND}/api/tts?text=${encodeURIComponent(text)}`;
-      player.replace({ uri });
-      player.seekTo(0);
-      player.play();
+      Speech.stop();
+      Speech.speak(text, {
+        language: lang === "es" ? "es-ES" : "en-US",
+        rate: 0.9,
+      });
     },
-    [player],
+    [lang],
   );
 
   const selectedObj = OBJS.find((o) => o.key === objKey)!;
