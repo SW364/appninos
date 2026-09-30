@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "CalcuVerbs-T.I.T.A.",
+    "name": "CalcuVerbs TITA",
     "slug": "calcuverbstita",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "calcuverbs",
+    "scheme": "calcuverbstita",
     "userInterfaceStyle": "automatic",
     "ios": {
       "supportsTablet": true,
