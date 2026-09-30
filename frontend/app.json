@@ -17,7 +17,12 @@
         "backgroundColor": "#FFF7EC"
       },
       "package": "com.calcuverbs.tita",
-      "permissions": []
+      "permissions": [
+        "android.permission.RECORD_AUDIO",
+        "android.permission.MODIFY_AUDIO_SETTINGS",
+        "android.permission.FOREGROUND_SERVICE",
+        "android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK"
+      ]
     },
     "web": {
       "bundler": "metro",
@@ -50,8 +55,9 @@
     "extra": {
       "router": {},
       "eas": {
-        "projectId": "f1a39b61-75fe-45e0-925e-f405e41f8e2f"
+        "projectId": "4e9815b4-f91c-4717-a990-70da23173bc6"
       }
-    }
+    },
+    "owner": "sw3644"
   }
 }
